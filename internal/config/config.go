@@ -10,7 +10,7 @@ type Config struct {
 
 func Load() *Config {
 	return &Config{
-		Port:   getEnv("PORT", "8080"),
+		Port:   getEnv("PORT", "9000"),
 		DBURL:  getEnv("DB_URL", "postgres://postgres:postgres@localhost:5432/wallet_db?sslmode=disable"),
 		AppEnv: getEnv("APP_ENV", "development"),
 	}

@@ -9,8 +9,8 @@ import (
 type LedgerEntryType string
 
 const (
-	LedgerEntryDebit  LedgerEntryType = "DEBIT"
-	LedgerEntryCredit LedgerEntryType = "CREDIT"
+	LedgerEntryTypeDebit  LedgerEntryType = "DEBIT"
+	LedgerEntryTypeCredit LedgerEntryType = "CREDIT"
 )
 
 type LedgerEntry struct {

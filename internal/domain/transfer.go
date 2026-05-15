@@ -1,16 +1,17 @@
 package domain
 
 import (
-	"github.com/google/uuid"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type TransferStatus string
 
 const (
-	TransferPending   TransferStatus = "PENDING"
-	TransferProcessed TransferStatus = "PROCESSED"
-	TransferFailed    TransferStatus = "FAILED"
+	TransferStatusPending   TransferStatus = "PENDING"
+	TransferStatusProcessed TransferStatus = "PROCESSED"
+	TransferStatusFailed    TransferStatus = "FAILED"
 )
 
 type Transfer struct {

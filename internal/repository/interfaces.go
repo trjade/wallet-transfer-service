@@ -24,6 +24,5 @@ type TransferRepository interface {
 }
 
 type LedgerRepository interface {
-	CreateEntries(ctx context.Context, entries []domain.LedgerEntry) error
+	Create(ctx context.Context, entry *domain.LedgerEntry) error
 }
-

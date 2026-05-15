@@ -25,7 +25,7 @@ func (r *WalletRepository) getExecutor(ctx context.Context) QueryExecutor {
 	return r.db
 }
 
-func (r *WalletRepository) GetWalletByID(ctx context.Context, walletID string) (*domain.Wallet, error) {
+func (r *WalletRepository) GetWalletByID(ctx context.Context, walletID uuid.UUID) (*domain.Wallet, error) {
 	var wallet domain.Wallet
 	executor := r.getExecutor(ctx)
 

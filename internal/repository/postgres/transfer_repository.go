@@ -2,8 +2,10 @@ package postgres
 
 import (
 	"context"
+	"errors"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/trjade/wallet-transfer-service/internal/domain"
 )
@@ -32,7 +34,7 @@ func (r *TransferRepository) CreateTransfer(ctx context.Context, transfer *domai
 		from_wallet_id, 
 		to_wallet_id, 
 		amount, 
-		status, 
+		transfer_status, 
 		created_at, 
 		updated_at
 		)
@@ -59,7 +61,7 @@ func (r *TransferRepository) GetTransferByIdempotencyKey(ctx context.Context, id
 			from_wallet_id,
 			to_wallet_id,
 			amount,
-			status,
+			transfer_status,
 			created_at,
 			updated_at
 		FROM transfers
@@ -77,7 +79,9 @@ func (r *TransferRepository) GetTransferByIdempotencyKey(ctx context.Context, id
 		&transfer.UpdatedAt,
 	)
 	if err != nil {
-		return nil, err
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, domain.ErrTransferNotFound
+		}
 	}
 
 	return &transfer, nil
@@ -86,7 +90,7 @@ func (r *TransferRepository) GetTransferByIdempotencyKey(ctx context.Context, id
 func (r *TransferRepository) UpdateTransferStatus(ctx context.Context, transferID uuid.UUID, newStatus domain.TransferStatus) error {
 	query := `
 		UPDATE transfers
-		SET status = $2, updated_at = NOW()
+		SET transfer_status = $2, updated_at = NOW()
 		WHERE id = $1
 	`
 	_, err := r.getExecutor(ctx).Exec(ctx, query, transferID, newStatus)
